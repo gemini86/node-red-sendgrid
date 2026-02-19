@@ -1,25 +1,54 @@
+
 # node-red-contrib-sendgrid
 
-Sending e-mail node using SendGrid service
+Send e-mails using the SendGrid service from Node-RED. This node provides a reliable alternative to the default e-mail node, especially when using cloud or remote deployments.
 
-The default e-mail node sometimes encounters a login problem occurred from unusual behavior. For example, Gmail authentication will show an alert when Node-RED runtime is located in a different location from the user's local PC or smartphone. SendGrid node can solve the problem because SendGrid service ensures sending an e-mail.
+## Inputs
 
-## How to use 
-(1) Install SendGrid node (node-red-contrib-sendgrid) using manage palette in Node-RED
+- **msg.from** (`string`): Sender e-mail address
+- **msg.to** (`string`): Recipient e-mail address
+- **msg.cc** (`string`, optional): Carbon copy recipient(s)
+- **msg.bcc** (`string`, optional): Blind carbon copy recipient(s)
+- **msg.topic** or **msg.title** (`string`): E-mail subject
+- **msg.payload** (`string`): E-mail body (plain text or HTML)
+- **msg.attachments** (`Buffer | Array | Object`): One or more attachments. Use a Buffer for a single attachment, or an array of Buffers/objects for multiple. Objects must match SendGrid's attachment format. Filenames are auto-generated unless provided.
+- **msg.templateId** (`string`, optional): SendGrid dynamic template ID
+- **msg.templateData** (`object` or `string`, optional): Data for dynamic template
 
-(2) Get API key from SendGrid website ( https://sendgrid.com/ )
+## Details
 
-(3) Paste the API key on the property of SendGrid node
-![property](https://github.com/zuhito/node-red-contrib-sendgrid/raw/master/property.png)
+To use this node:
 
-(4) Create flows using SendGrid node
-![flow](https://github.com/zuhito/node-red-contrib-sendgrid/raw/master/flow.png)
+1. Install via the Node-RED palette manager (`@gemini86/node-red-sendgrid`).
+2. Get an API key from [SendGrid](https://sendgrid.com/).
+3. Paste the API key into the node's configuration.
+4. Configure your flow to set the required message properties.
 
-## SendGrid node specification
-Sends the <code>msg.payload</code> as an email, with a subject of <code>msg.topic</code>.
-The default message recipient can be configured in the node.
-If it is left blank, it should be set using the <code>msg.to</code> property of the incoming message.
-you can also specify <code>msg.cc</code> and/or <code>msg.bcc</code> properties.
-You can set sender of <code>msg.from</code> in the payload.
-If the payload is a binary buffer then it will be converted to an attachment.
-The filename should be set using <code>msg.filename</code>. Optionally <code>msg.description</code> can be added for the body text.
+### Attachments
+
+To add attachments, set `msg.attachments`:
+
+- For a single attachment, use a Buffer.
+- For multiple attachments, use an array of Buffers or objects in SendGrid's format.
+- If using Buffers, filenames will be auto-generated unless you provide `att.filename` or `msg.filenames` (array of names in the same order as the Buffers).
+- `msg.payload` is always used as the e-mail body (string or HTML), never as an attachment.
+
+**SendGrid attachment object example:**
+
+```js
+{
+  content: "<base64-encoded string>",
+  filename: "document.pdf",
+  type: "application/pdf", // optional
+  disposition: "attachment", // optional
+  content_id: "unique-id" // optional
+}
+```
+
+**Note:** Legacy usage of `msg.payload` as a Buffer for attachments is no longer supported. Always use `msg.attachments` for attachments.
+
+## References
+
+- [SendGrid documentation](https://sendgrid.com/docs/)
+- [Node-RED documentation](https://nodered.org/docs/)
+- [GitHub repository](https://github.com/gemini86/node-red-sendgrid)

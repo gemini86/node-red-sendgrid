@@ -1,6 +1,6 @@
 {
-  "name": "node-red-contrib-sendgrid",
-  "version": "0.2.1",
+  "name": "@gemini86/node-red-sendgrid",
+  "version": "1.0.1",
   "description": "Sending e-mail node using SendGrid service",
   "main": "node.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zuhito/node-red-contrib-sendgrid.git"
+    "url": "git+https://github.com/gemini86/node-red-sendgrid.git"
   },
   "dependencies": {
     "file-type": "12.4.2",
@@ -26,10 +26,14 @@
     "email",
     "e-mail"
   ],
-  "author": "zuhito",
+  "author": "gemini86",
+  "contributors": [
+    "gemini86",
+    "zuhito"
+  ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/zuhito/node-red-contrib-sendgrid/issues"
+    "url": "https://github.com/gemini86/node-red-sendgrid/issues"
   },
-  "homepage": "https://github.com/zuhito/node-red-contrib-sendgrid#readme"
+  "homepage": "https://github.com/gemini86/node-red-sendgrid#readme"
 }

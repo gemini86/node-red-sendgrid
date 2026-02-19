@@ -1,30 +1,53 @@
-<script type="text/html" data-help-name="sendgrid">
-  <p>E-mail sending node using SendGrid service.</p>
-  <p>You need to get an API key from the SendGrid website (<a href="https://sendgrid.com" target="_blank">https://sendgrid.com</a>).</p>
-  <p>Sends the <code>msg.payload</code> as an e-mail, with a subject of <code>msg.topic</code>.</p>
-  <h3>Inputs</h3>
-  <dl class="message-properties">
-    <dt>msg.from<span class="property-type">string</span></dt>
-    <dd>The sender of the message</dd>
-    <dt>msg.to<span class="property-type">string</span></dt>
-    <dd>Recipient of the message</dd>
-    <dt>msg.topic || msg.title<span class="property-type">string</span></dt>
-    <dd>The subject of the e-mail</dd>
-    <dt>msg.cc<span class="property-type">string</span></dt>
-    <dd>Recipient of carbon copy (Optional)</dd>
-    <dt>msg.bcc<span class="property-type">string</span></dt>
-    <dd>Recipient of blind carbon copy (Optional)</dd>
-    <dt>msg.templateId<span class="property-type">string</span></dt>
-    <dd>SendGrid dynamic template ID</dd>
-    <dt>msg.templateData<span class="property-type">string</span></dt>
-    <dd>Data to fill the dynamic template</dd>
-    <dt>msg.payload<span class="property-type">string | buffer</span></dt>
-    <dd>If a `String`, the body of the e-mail or attachment if it's a `Buffer`</dd>
-  </dt>
-  </dl>
-  <h3>Details</h3>
-  <p>The default message recipient can be configured in the node. If it is left blank, it should be set using the <code>msg.to</code> property of the incoming message. You can also specify <code>msg.cc</code> and/or <code>msg.bcc</code> properties. You can set the sender of <code>msg.from</code> in the payload.</p>
-  <p>If the payload is a binary buffer then it will be converted to an attachment. The filename should be set using <code>msg.filename</code>. Optionally <code>msg.description</code> can be added for the body text.</p>
-  <p>Optionally, you can provide a <a href="https://sendgrid.com/docs/ui/sending-email/how-to-send-an-email-with-dynamic-transactional-templates/">dynamic template ID</a> and data to use this node as a dynamic transactional template.</p>
-  <p>In case you sending multiple e-mails but want to send each one individually, you can check the `Multiple` checkbox.</p>
+<script type="text/markdown" data-help-name="sendgrid">
+Send e-mails using the SendGrid service from Node-RED.
+
+### Inputs
+
+- **msg.from** (`string`): Sender e-mail address
+- **msg.to** (`string`): Recipient e-mail address
+- **msg.cc** (`string`, optional): Carbon copy recipient(s)
+- **msg.bcc** (`string`, optional): Blind carbon copy recipient(s)
+- **msg.topic** (`string`): E-mail subject (or use `msg.title`)
+- **msg.payload** (`string`): E-mail body (plain text or HTML, depending on node config)
+- **msg.attachments** (`Buffer | Array | Object`, optional): One or more attachments. Use a Buffer for a single attachment, or an array of Buffers/objects for multiple. Objects must match SendGrid's attachment format. Filenames are auto-generated unless provided.
+- **msg.templateId** (`string`, optional): SendGrid dynamic template ID
+- **msg.templateData** (`object | string`, optional): Data for dynamic template
+
+### Details
+
+To use this node:
+
+1. Install via the Node-RED palette manager (`@gemini86/node-red-sendgrid`).
+2. Get an API key from [SendGrid](https://sendgrid.com/).
+3. Paste the API key into the node's configuration.
+4. Configure your flow to set the required message properties.
+
+#### Attachments
+
+To add attachments, set `msg.attachments`:
+
+- For a single attachment, use a Buffer.
+- For multiple attachments, use an array of Buffers or objects in SendGrid's format.
+- If using Buffers, filenames will be auto-generated unless you provide `att.filename` or `msg.filenames` (array of names in the same order as the Buffers).
+- `msg.payload` is always used as the e-mail body (string or HTML), never as an attachment.
+
+**SendGrid attachment object example:**
+
+```js
+{
+  content: "<base64-encoded string>",
+  filename: "document.pdf",
+  type: "application/pdf", // optional
+  disposition: "attachment", // optional
+  content_id: "unique-id" // optional
+}
+```
+
+**Note:** Legacy usage of `msg.payload` as a Buffer for attachments is no longer supported. Always use `msg.attachments` for attachments.
+
+### References
+
+- [SendGrid documentation](https://sendgrid.com/docs/)
+- [Node-RED documentation](https://nodered.org/docs/)
+- [GitHub repository](https://github.com/gemini86/node-red-sendgrid)
 </script>
