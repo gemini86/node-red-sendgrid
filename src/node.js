@@ -10,7 +10,7 @@ module.exports = function (RED) {
             send = send || function () {
                 node.send.apply(node, arguments);
             };
-            node.status({fill: "blue", shape: "dot", text: "sendgrid.status.sending"});
+            node.status({fill: "blue", shape: "dot", text: "gemini86-sendgrid.status.sending"});
             var body;
             var data = {
                 from: config.from || msg.from,
@@ -46,7 +46,7 @@ module.exports = function (RED) {
                         if (config.skipBadAtts) {
                             node.warn(`Attachment normalization error: ${err && err.message ? err.message : err}`);
                         } else {
-                            node.status({fill: "red", shape: "ring", text: "sendgrid.status.sendfail"});
+                            node.status({fill: "red", shape: "ring", text: "gemini86-sendgrid.status.sendfail"});
                             if (done) {
                                 return done(err.toString());
                             } else {
@@ -67,7 +67,7 @@ module.exports = function (RED) {
             sgMail.setApiKey(node.credentials.key);
             sgMail.send(data, config.multiple, function (err) {
                 if (err) {
-                    node.status({fill: "red", shape: "ring", text: "sendgrid.status.sendfail"});
+                    node.status({fill: "red", shape: "ring", text: "gemini86-sendgrid.status.sendfail"});
                     if (done) {
                         done(err.toString());
                     } else {
