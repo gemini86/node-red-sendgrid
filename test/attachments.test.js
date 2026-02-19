@@ -85,6 +85,30 @@ describe('sendgrid node attachments', function () {
         });
     });
 
+    it("accepts attachment objects with Buffer content", function (done) {
+        const flow = [{ id: "n1", type: NODE_TYPE, from: "a@b.com", to: "c@d.com" }];
+        const credentials = { n1: { key: "SG.fakekey" } };
+
+        helper.load(sendgridNode, flow, credentials, function (err) {
+            if (err) return done(err);
+
+            helper.getNode("n1").receive({
+                payload: "hi",
+                attachments: [{
+                    filename: "x.png",
+                    type: "image/png",
+                    content: Buffer.from([0x01, 0x02, 0x03]),
+                }]
+            });
+
+            setImmediate(() => {
+                const data = state.sendCalls[0].data;
+                data.attachments[0].content.should.equal(Buffer.from([0x01, 0x02, 0x03]).toString("base64"));
+                done();
+            });
+        });
+    });
+
     it('skips bad attachments when skipBadAtts is true', function (done) {
         const flow = [{
             id: 'n1',
