@@ -1,7 +1,7 @@
 <script type="text/javascript">
   RED.nodes.registerType('sendgrid', {
     category: 'social',
-    color: '#489be8',
+    color: '#4176a6', 
     defaults: {
       from: {value: ""},
       multiple: {value: false},
@@ -137,6 +137,12 @@
   </div>
   <div class="form-row node-text-editor-row">
     <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-templateData-editor"></div>
+  </div>
+  <div class="form-row">
+    <label for="node-input-skipBadAtts" style="width:auto;">
+      <input type="checkbox" id="node-input-skipBadAtts" style="width:20px; vertical-align:middle;">
+      <span data-i18n="sendgrid.label.skipBadAtts">Skip bad attachments (warn instead of error)</span>
+    </label>
   </div>
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>

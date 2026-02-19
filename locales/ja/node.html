@@ -7,11 +7,16 @@ Node-RED から SendGrid サービスを使ってメールを送信します。
 - **msg.to** (`string`): 宛先メールアドレス
 - **msg.cc** (`string`, オプション): CC（カーボンコピー）宛先
 - **msg.bcc** (`string`, オプション): BCC（ブラインドカーボンコピー）宛先
-- **msg.topic** (`string`): メール件名（`msg.title` も可）
+- **msg.topic** (`string`): メール件名（`msg.subject` も可）
 - **msg.payload** (`string`): メール本文（プレーンテキストまたはHTML、ノード設定による）
 - **msg.attachments** (`Buffer | Array | Object`, オプション): 添付ファイル。1つの場合は Buffer、複数の場合は Buffer または SendGrid 形式のオブジェクトの配列。Buffer の場合、ファイル名は自動生成されますが、`att.filename` または `msg.filenames`（Bufferと同じ順序の配列）で指定可能です。
 - **msg.templateId** (`string`, オプション): SendGrid ダイナミックテンプレートID
 - **msg.templateData** (`object | string`, オプション): ダイナミックテンプレート用データ
+
+
+### 不正な添付ファイルのスキップ
+
+有効にすると、正しく処理できない添付ファイルはスキップされ、ノードはエラーにならず警告のみが記録されます。無効の場合、最初の不正な添付ファイルでノードがエラーになります。
 
 ### 詳細
 

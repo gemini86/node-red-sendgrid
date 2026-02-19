@@ -9,7 +9,7 @@ Send e-mails using the SendGrid service from Node-RED. This node provides a reli
 - **msg.to** (`string`): Recipient e-mail address
 - **msg.cc** (`string`, optional): Carbon copy recipient(s)
 - **msg.bcc** (`string`, optional): Blind carbon copy recipient(s)
-- **msg.topic** or **msg.title** (`string`): E-mail subject
+- **msg.topic** or **msg.subject** (`string`): E-mail subject
 - **msg.payload** (`string`): E-mail body (plain text or HTML)
 - **msg.attachments** (`Buffer | Array | Object`): One or more attachments. Use a Buffer for a single attachment, or an array of Buffers/objects for multiple. Objects must match SendGrid's attachment format. Filenames are auto-generated unless provided.
 - **msg.templateId** (`string`, optional): SendGrid dynamic template ID
