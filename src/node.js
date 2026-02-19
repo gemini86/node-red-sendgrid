@@ -77,6 +77,7 @@ module.exports = function (RED) {
                     if (done) {
                         done();
                     }
+                    node.status({fill: "green", shape: "dot", text: "gemini86-sendgrid.status.sent"});
                     setTimeout(function () {
                         node.status({});
                     }, 1000);
