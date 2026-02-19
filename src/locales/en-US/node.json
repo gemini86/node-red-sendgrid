@@ -21,6 +21,7 @@
         },
         "status": {
             "sending": "Sending...",
+            "sent": "Sent",
             "sendfail": "Send failed"
         }
     }
