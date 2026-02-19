@@ -45,6 +45,10 @@ To add attachments, set `msg.attachments`:
 }
 ```
 
+### Skip Bad Attachments
+
+If enabled, attachments that cannot be normalized (invalid or unsupported) will be skipped and a warning will be logged instead of failing the node. If disabled, the node will error on the first bad attachment.
+
 **Note:** Legacy usage of `msg.payload` as a Buffer for attachments is no longer supported. Always use `msg.attachments` for attachments.
 
 ## References
