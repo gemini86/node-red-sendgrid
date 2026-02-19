@@ -22,16 +22,52 @@ module.exports = function (RED) {
                 dynamic_template_data: (data => typeof data === 'object' ? data : JSON.parse(data))(config.templateData || msg.templateData || '{}'),
             };
             if(!config.templateId) {
-                if (Buffer.isBuffer(msg.payload)) {
-                    data.attachments = [{
-                        content: msg.payload.toString('base64'),
-                        filename: msg.filename || "attachment." + fileType(msg.payload).ext
-                    }];
-                    body = msg.description || " ";
-                } else {
-                    body = msg.payload.toString();
+                // Always use msg.attachments for attachments
+                if (msg.attachments) {
+                    let attachments = [];
+                    if (Buffer.isBuffer(msg.attachments)) {
+                        // Single buffer as attachment
+                        let ext = "bin";
+                        try {
+                            const ft = fileType(msg.attachments);
+                            if (ft && ft.ext) ext = ft.ext;
+                        } catch (e) {
+                            node.warn("Could not determine file type for attachment (single buffer): " + (e && e.message ? e.message : e));
+                        }
+                        attachments.push({
+                            content: msg.attachments.toString('base64'),
+                            filename: msg.filename || ("attachment." + ext)
+                        });
+                    } else if (Array.isArray(msg.attachments)) {
+                        // Array of attachments
+                        msg.attachments.forEach((att, i) => {
+                            if (Buffer.isBuffer(att)) {
+                                let ext = "bin";
+                                try {
+                                    const ft = fileType(att);
+                                    if (ft && ft.ext) ext = ft.ext;
+                                } catch (e) {
+                                    node.warn("Could not determine file type for attachment at index " + i + ": " + (e && e.message ? e.message : e));
+                                }
+                                attachments.push({
+                                    content: att.toString('base64'),
+                                    filename: (att.filename || (msg.filenames && msg.filenames[i]) || ("attachment" + (i+1) + "." + ext))
+                                });
+                            } else if (att && att.content && att.filename) {
+                                // Already in SendGrid format
+                                attachments.push(att);
+                            }
+                        });
+                    } else if (msg.attachments.content && msg.attachments.filename) {
+                        // Already in SendGrid format
+                        attachments.push(msg.attachments);
+                    }
+                    if (attachments.length > 0) {
+                        data.attachments = attachments;
+                    }
                 }
-
+                // msg.payload is always the body
+                body = msg.payload ? msg.payload.toString() : " ";
                 if (config.content === "html") {
                     data.html = body;
                 } else {
