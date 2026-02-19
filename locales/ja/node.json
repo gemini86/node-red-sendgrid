@@ -16,7 +16,8 @@
             "templateData": "テンプレートデータ",
             "subject": "件名",
             "attachments": "添付ファイル",
-            "body": "本文"
+            "body": "本文",
+            "skipBadAtts": "不正な添付ファイルをスキップ (エラーの代わりに警告)"
         },
         "status": {
             "sending": "送信中...",

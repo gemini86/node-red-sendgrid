@@ -16,7 +16,8 @@
             "templateData": "Template Data",
             "subject": "Subject",
             "attachments": "Attachments",
-            "body": "Body"
+            "body": "Body",
+            "skipBadAtts": "Skip bad attachments (warn instead of error)"
         },
         "status": {
             "sending": "Sending...",
