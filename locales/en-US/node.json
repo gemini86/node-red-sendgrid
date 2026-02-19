@@ -3,19 +3,24 @@
         "label": {
             "apiKey": "API key",
             "apiKeyPlaceholder": "Paste API Key created in SendGrid settings",
-            "from": "From",
-            "multiple": "Multiple",
-            "to": "To",
+            "from": "From address",
+            "multiple": "Send individually",
+            "to": "To address",
+            "cc": "CC",
+            "bcc": "BCC",
             "format": "Format",
-            "text": "text",
-            "html": "html",
+            "text": "Text",
+            "html": "HTML",
             "template": "Template",
             "templateId": "Template ID",
-            "templateData": "Template Data"
+            "templateData": "Template Data",
+            "subject": "Subject",
+            "attachments": "Attachments",
+            "body": "Body"
         },
         "status": {
-            "sending": "sending",
-            "sendfail": "send failed"
+            "sending": "Sending...",
+            "sendfail": "Send failed"
         }
     }
 }
