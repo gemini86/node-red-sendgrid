@@ -14,7 +14,6 @@
             "template": "テンプレート",
             "templateId": "テンプレID",
             "templateData": "テンプレートデータ",
-            "subject": "件名",
             "attachments": "添付ファイル",
             "body": "本文",
             "skipBadAtts": "不正な添付ファイルをスキップ (エラーの代わりに警告)"

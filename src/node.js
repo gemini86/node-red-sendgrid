@@ -17,7 +17,7 @@ module.exports = function (RED) {
                 to: (to => Array.isArray(to) ? to : to.split(/[,; ]+/g))(msg.to || config.to || ''),
                 cc: (msg.cc || '').split(/[,; ]+/g),
                 bcc: (msg.bcc || '').split(/[,; ]+/g),
-                subject: config.subject || msg.topic || msg.subject || 'Message from Node-RED',
+                subject: msg.topic || msg.subject || 'Message from Node-RED',
                 templateId: config.templateId || msg.templateId,
                 dynamic_template_data: (data => typeof data === 'object' ? data : JSON.parse(data))(config.templateData || msg.templateData || '{}'),
             };
