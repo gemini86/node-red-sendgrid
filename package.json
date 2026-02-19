@@ -20,7 +20,7 @@
   },
   "node-red": {
     "nodes": {
-      "sendgrid": "src/node.js"
+      "@gemini86/sendgrid": "src/node.js"
     }
   },
   "keywords": [
