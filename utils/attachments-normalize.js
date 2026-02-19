@@ -32,6 +32,26 @@ function mimeFromFilename(filename) {
 }
 
 /**
+ * Automatically convert buffers to base64
+ */
+function contentToBase64(content) {
+    // Raw Buffer
+    if (Buffer.isBuffer(content)) return content.toString("base64");
+
+    // Node-RED sometimes serializes buffers like this
+    if (content && content.type === "Buffer" && Array.isArray(content.data)) {
+        return Buffer.from(content.data).toString("base64");
+    }
+
+    // Already base64 string
+    if (typeof content === "string") return content;
+
+    // Unknown type
+    return null;
+}
+
+
+/**
  * Basic, dependency-free extension + mime sniff from buffer magic bytes.
  * Best-effort only (intentionally limited).
  */
@@ -142,8 +162,7 @@ function normalizeAttachments(input, opts = {}) {
 
             // Case 2: Object -> validate + normalize (and optionally infer type from filename)
             if (item && typeof item === 'object') {
-                // Enforce spec-ish: must have base64 string content + filename
-                if (typeof item.content !== 'string') throw new Error('"content" must be a base64 string');
+                // Enforce spec-ish: must have filename
                 if (typeof item.filename !== 'string' || !item.filename.trim()) throw new Error('"filename" is required');
 
                 // Infer missing type from filename ext (optional)
@@ -153,7 +172,7 @@ function normalizeAttachments(input, opts = {}) {
                 a.setDisposition(item.disposition || 'attachment');
                 a.setFilename(item.filename);
                 if (type) a.setType(type);
-                a.setContent(item.content); // already base64 string
+                a.setContent(contentToBase64(item.content)); // Auto base64 or Buffer
                 if (item.content_id) a.setContentId(item.content_id);
 
                 attachments.push(a.toJSON());
