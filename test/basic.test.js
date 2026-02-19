@@ -1,7 +1,7 @@
 const { helper, makeSendgridNode } = require('./_helper');
 require('should');
 
-const { sendgridNode, state, reset } = makeSendgridNode();
+const { sendgridNode, state, reset, NODE_TYPE } = makeSendgridNode();
 
 describe('sendgrid node', function () {
     beforeEach(() => reset());
@@ -9,7 +9,7 @@ describe('sendgrid node', function () {
     it('uses config.subject then topic then msg.subject', function (done) {
         const flow = [{
             id: 'n1',
-            type: 'sendgrid',
+            type: NODE_TYPE,
             from: 'from@example.com',
             to: 'to@example.com',
             subject: 'Config Subject'
@@ -46,7 +46,7 @@ describe('sendgrid node', function () {
     it('sends html when config.content === "html"', function (done) {
         const flow = [{
             id: 'n1',
-            type: 'sendgrid',
+            type: NODE_TYPE,
             from: 'from@example.com',
             to: 'to@example.com',
             content: 'html'
