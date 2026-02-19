@@ -1,30 +1,53 @@
-<script type="text/html" data-help-name="sendgrid">
-  <p>SendGridサービスを使用する電子メール送信ノード。</p>
-  <p>本ノードを使用するためには、SendGridウェブサイトからAPIキーを取得する必要があります(<a href="https://sendgrid.com" target="_blank">https://sendgrid.com</a>)。</p>
-  <p><code>msg.payload</code>の内容を電子メールとして送信します。<code>msg.topic</code>を指定した場合は、電子メールの件名として使用します。</p>
-  <h3>入力</h3>
-  <dl class="message-properties">
-    <dt>msg.from<span class="property-type">string</span></dt>
-    <dd>メッセージの送信者</dd>
-    <dt>msg.to<span class="property-type">string</span></dt>
-    <dd>メッセージの受信者</dd>
-    <dt>msg.topic || msg.title<span class="property-type">string</span></dt>
-    <dd>メールの件名</dd>
-    <dt>msg.cc<span class="property-type">string</span></dt>
-    <dd>CCの受信者(任意)</dd>
-    <dt>msg.bcc<span class="property-type">string</span></dt>
-    <dd>BCCの受信者(任意)</dd>
-    <dt>msg.templateId<span class="property-type">string</span></dt>
-    <dd>SendGridのダイナミックテンプレートID</dd>
-    <dt>msg.templateData<span class="property-type">string</span></dt>
-    <dd>ダイナミックテンプレートに入力するデータ</dd>
-    <dt>msg.payload<span class="property-type">string | buffer</span></dt>
-    <dd>`String`の場合は電子メールの本文、`Buffer`の場合は添付ファイル</dd>
-  </dt>
-  </dl>
-  <h3>詳細</h3>
-  <p>メッセージ受信者はノードに設定します。宛先を指定しない場合、メッセージの<code>msg.to</code>プロパティを使用して設定する必要があります。<code>msg.cc</code>および/または<code>msg.bcc</code>プロパティを指定することもできます。<code>msg.from</code>には、送信者を設定できます。</p>
-  <p>ペイロードがバイナリバッファの場合、添付ファイルに変換されます。ファイル名は<code>msg.filename</code>を使用して設定する必要があります。オプションとして本文に<code>msg.description</code>を追加できます。</p>
-  <p>オプションで、<a href="https://sendgrid.com/docs/ui/sending-email/how-to-send-an-email-with-dynamic-transactional-templates/">ダイナミックテンプレートID</a>とデータを提供して、このノードをダイナミックトランザクションテンプレートとして使用できます。</p>
-  <p>複数の宛先にメールを個別に送信したい場合は、`個別配信`のチェックボックスをオンにします。</p>
+<script type="text/markdown" data-help-name="sendgrid">
+Node-RED から SendGrid サービスを使ってメールを送信します。
+
+### 入力プロパティ
+
+- **msg.from** (`string`): 送信者メールアドレス
+- **msg.to** (`string`): 宛先メールアドレス
+- **msg.cc** (`string`, オプション): CC（カーボンコピー）宛先
+- **msg.bcc** (`string`, オプション): BCC（ブラインドカーボンコピー）宛先
+- **msg.topic** (`string`): メール件名（`msg.title` も可）
+- **msg.payload** (`string`): メール本文（プレーンテキストまたはHTML、ノード設定による）
+- **msg.attachments** (`Buffer | Array | Object`, オプション): 添付ファイル。1つの場合は Buffer、複数の場合は Buffer または SendGrid 形式のオブジェクトの配列。Buffer の場合、ファイル名は自動生成されますが、`att.filename` または `msg.filenames`（Bufferと同じ順序の配列）で指定可能です。
+- **msg.templateId** (`string`, オプション): SendGrid ダイナミックテンプレートID
+- **msg.templateData** (`object | string`, オプション): ダイナミックテンプレート用データ
+
+### 詳細
+
+このノードの使い方:
+
+1. Node-RED パレットマネージャーから（`@gemini86/node-red-sendgrid`）をインストールします。
+2. [SendGrid](https://sendgrid.com/) からAPIキーを取得します。
+3. ノードの設定画面にAPIキーを貼り付けます。
+4. 必要なメッセージプロパティをフローで設定します。
+
+#### 添付ファイル
+
+添付ファイルを追加するには、`msg.attachments` を設定します:
+
+- 1つの場合は Buffer を使用します。
+- 複数の場合は Buffer または SendGrid 形式のオブジェクトの配列を使用します。
+- Buffer の場合、ファイル名は自動生成されますが、`att.filename` または `msg.filenames`（Bufferと同じ順序の配列）で指定可能です。
+- `msg.payload` は常にメール本文（テキストまたはHTML）として使用され、添付ファイルにはなりません。
+
+**SendGrid 添付ファイルオブジェクト例:**
+
+```js
+{
+  content: "<base64-encoded string>",
+  filename: "document.pdf",
+  type: "application/pdf", // オプション
+  disposition: "attachment", // オプション
+  content_id: "unique-id" // オプション
+}
+```
+
+**注意:** 以前の `msg.payload` を Buffer として添付ファイルに使う方法はサポートされません。必ず `msg.attachments` を使用してください。
+
+### 参考リンク
+
+- [SendGrid ドキュメント](https://sendgrid.com/docs/)
+- [Node-RED ドキュメント](https://nodered.org/docs/)
+- [GitHub リポジトリ](https://github.com/gemini86/node-red-sendgrid)
 </script>
