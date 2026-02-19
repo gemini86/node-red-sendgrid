@@ -1,7 +1,7 @@
 const { helper, makeSendgridNode } = require('./_helper');
 require('should');
 
-const { sendgridNode, state, reset } = makeSendgridNode();
+const { sendgridNode, state, reset, NODE_TYPE } = makeSendgridNode();
 
 describe('sendgrid node attachments', function () {
     beforeEach(() => reset());
@@ -9,7 +9,7 @@ describe('sendgrid node attachments', function () {
     it('normalizes buffer attachments and sends them', function (done) {
         const flow = [{
             id: 'n1',
-            type: 'sendgrid',
+            type: NODE_TYPE,
             from: 'from@example.com',
             to: 'to@example.com',
             skipBadAtts: false
@@ -47,7 +47,7 @@ describe('sendgrid node attachments', function () {
     it('accepts attachment objects (base64 content) and infers type from filename when missing', function (done) {
         const flow = [{
             id: 'n1',
-            type: 'sendgrid',
+            type: NODE_TYPE,
             from: 'from@example.com',
             to: 'to@example.com',
             skipBadAtts: false
@@ -88,7 +88,7 @@ describe('sendgrid node attachments', function () {
     it('skips bad attachments when skipBadAtts is true', function (done) {
         const flow = [{
             id: 'n1',
-            type: 'sendgrid',
+            type: NODE_TYPE,
             from: 'from@example.com',
             to: 'to@example.com',
             skipBadAtts: true
@@ -126,7 +126,7 @@ describe('sendgrid node attachments', function () {
     it('fails on bad attachments when skipBadAtts is false', function (done) {
         const flow = [{
             id: 'n1',
-            type: 'sendgrid',
+            type: NODE_TYPE,
             from: 'from@example.com',
             to: 'to@example.com',
             skipBadAtts: false

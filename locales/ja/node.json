@@ -1,5 +1,5 @@
 {
-    "sendgrid": {
+    "gemini86-sendgrid": {
         "label": {
             "apiKey": "APIキー",
             "apiKeyPlaceholder": "SendGrid設定ページのAPIキーを貼り付け",

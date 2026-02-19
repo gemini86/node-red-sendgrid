@@ -1,6 +1,6 @@
 {
   "name": "@gemini86/node-red-sendgrid",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sending e-mail node using SendGrid service",
   "main": "node.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "node-red": {
     "nodes": {
-      "@gemini86/sendgrid": "src/node.js"
+      "gemini86-sendgrid": "src/node.js"
     }
   },
   "keywords": [

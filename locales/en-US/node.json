@@ -1,5 +1,5 @@
 {
-    "sendgrid": {
+    "gemini86-sendgrid": {
         "label": {
             "apiKey": "API key",
             "apiKeyPlaceholder": "Paste API Key created in SendGrid settings",

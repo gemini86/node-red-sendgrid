@@ -4,25 +4,10 @@ const proxyquire = require('proxyquire');
 
 helper.init(require.resolve('node-red'));
 
-// Start/stop once for the whole suite (since this module is required by test files)
-before(function () {
-    return helper.startServer();
-});
+before(function () { return helper.startServer(); });
+after(function () { return helper.stopServer(); });
+afterEach(function () { return helper.unload(); });
 
-after(function () {
-    return helper.stopServer();
-});
-
-afterEach(function () {
-    return helper.unload();
-});
-
-/**
- * Factory: returns a proxyquired node module + stateful call capture.
- * Usage:
- *   const { helper, makeSendgridNode } = require('./_helper');
- *   const { sendgridNode, state, reset } = makeSendgridNode();
- */
 function makeSendgridNode() {
     const state = {
         sendCalls: [],
@@ -31,14 +16,10 @@ function makeSendgridNode() {
 
     const mockSend = function (data, multiple, cb) {
         state.sendCalls.push({ data, multiple });
-
-        // Support (data, cb) and (data, multiple, cb)
         if (typeof multiple === 'function') cb = multiple;
 
         const result = [{ statusCode: 202 }];
         if (typeof cb === 'function') setImmediate(() => cb(null, result));
-
-        // Extra-safe if code ever awaits
         return Promise.resolve(result);
     };
 
@@ -50,12 +31,28 @@ function makeSendgridNode() {
         '@sendgrid/mail': { send: mockSend, setApiKey: mockSetApiKey },
     });
 
+    // ✅ Capture what the module *actually* registers
+    let NODE_TYPE;
+    sendgridNode({
+        nodes: {
+            registerType: (t) => { NODE_TYPE = t; },
+            // minimal stubs; just enough so the module can define itself
+            createNode: () => { },
+            getNode: () => ({}),
+        },
+        log: { info() { }, warn() { }, error() { }, debug() { } },
+    });
+
+    if (!NODE_TYPE) {
+        throw new Error('Could not detect NODE_TYPE from registerType() in ../src/node.js');
+    }
+
     function reset() {
         state.sendCalls = [];
         state.apiKeyCalls = [];
     }
 
-    return { sendgridNode, state, reset };
+    return { sendgridNode, state, reset, NODE_TYPE };
 }
 
 module.exports = { helper, makeSendgridNode };

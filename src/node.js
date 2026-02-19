@@ -84,7 +84,7 @@ module.exports = function (RED) {
             });
         });
     }
-    RED.nodes.registerType("@gemin86/sendgrid", SendGridNode, {
+    RED.nodes.registerType("gemin86-sendgrid", SendGridNode, {
         credentials: {
             key: {type: "password"}
         },
