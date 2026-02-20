@@ -1,8 +1,6 @@
 var sgMail = require('@sendgrid/mail');
 const { normalizeAttachments } = require('../utils/attachments-normalize');
 
-const MAX_ERROR_VALUE_LENGTH = 100;
-
 module.exports = function (RED) {
     'use strict';
     function SendGridNode(config) {
@@ -39,11 +37,7 @@ module.exports = function (RED) {
                     templateData = JSON.parse(templateDataSource);
                 } catch (err) {
                     node.status({fill: "red", shape: "ring", text: "gemini86-sendgrid.status.sendfail"});
-                    const sourceStr = String(templateDataSource);
-                    const truncatedSource = sourceStr.length > MAX_ERROR_VALUE_LENGTH 
-                        ? sourceStr.substring(0, MAX_ERROR_VALUE_LENGTH) + '...'
-                        : sourceStr;
-                    const errorMsg = `Invalid template data JSON from ${templateDataSourceName}: ${err.message}. Received: ${truncatedSource}`;
+                    const errorMsg = `Invalid template data JSON from ${templateDataSourceName}: ${err.message}. Received: ${String(templateDataSource)}`;
                     if (done) {
                         return done(errorMsg);
                     } else {
