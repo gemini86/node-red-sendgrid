@@ -16,7 +16,7 @@ module.exports = function (RED) {
             // Parse template data with error handling
             var templateData;
             var templateDataSource = config.templateData || msg.templateData || '{}';
-            var templateDataSourceName = config.templateData ? 'config' : (msg.templateData ? 'message' : null);
+            var templateDataSourceName = config.templateData ? 'config' : (msg.templateData ? 'message' : 'default');
             
             if (typeof templateDataSource === 'object') {
                 templateData = templateDataSource;
@@ -25,7 +25,8 @@ module.exports = function (RED) {
                     templateData = JSON.parse(templateDataSource);
                 } catch (err) {
                     node.status({fill: "red", shape: "ring", text: "gemini86-sendgrid.status.sendfail"});
-                    const errorMsg = `Invalid template data JSON from ${templateDataSourceName || 'unknown source'}: ${err.message}`;
+                    const truncatedSource = String(templateDataSource).substring(0, 100);
+                    const errorMsg = `Invalid template data JSON from ${templateDataSourceName}: ${err.message}. Received: ${truncatedSource}`;
                     if (done) {
                         return done(errorMsg);
                     } else {
