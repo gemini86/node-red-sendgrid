@@ -12,6 +12,40 @@ module.exports = function (RED) {
             };
             node.status({fill: "blue", shape: "dot", text: "gemini86-sendgrid.status.sending"});
             var body;
+            
+            // Parse template data with error handling
+            // Use falsy check to match original || behavior (treats empty strings, null, undefined as unset)
+            var templateData;
+            var templateDataSource;
+            var templateDataSourceName;
+            
+            if (config.templateData) {
+                templateDataSource = config.templateData;
+                templateDataSourceName = 'config';
+            } else if (msg.templateData) {
+                templateDataSource = msg.templateData;
+                templateDataSourceName = 'message';
+            } else {
+                templateDataSource = '{}';
+                templateDataSourceName = 'default';
+            }
+            
+            if (typeof templateDataSource === 'object') {
+                templateData = templateDataSource;
+            } else {
+                try {
+                    templateData = JSON.parse(templateDataSource);
+                } catch (err) {
+                    node.status({fill: "red", shape: "ring", text: "gemini86-sendgrid.status.sendfail"});
+                    const errorMsg = `Invalid template data JSON from ${templateDataSourceName}: ${err.message}. Received: ${String(templateDataSource)}`;
+                    if (done) {
+                        return done(errorMsg);
+                    } else {
+                        return node.error(errorMsg, msg);
+                    }
+                }
+            }
+            
             var data = {
                 from: config.from || msg.from,
                 to: (to => Array.isArray(to) ? to : to.split(/[,; ]+/g))(msg.to || config.to || ''),
@@ -19,7 +53,7 @@ module.exports = function (RED) {
                 bcc: (msg.bcc || '').split(/[,; ]+/g),
                 subject: msg.topic || msg.subject || 'Message from Node-RED',
                 templateId: config.templateId || msg.templateId,
-                dynamic_template_data: (data => typeof data === 'object' ? data : JSON.parse(data))(config.templateData || msg.templateData || '{}'),
+                dynamic_template_data: templateData,
             };
             if(!data.templateId) {
                 // Always use msg.attachments for attachments
