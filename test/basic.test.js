@@ -6,13 +6,12 @@ const { sendgridNode, state, reset, NODE_TYPE } = makeSendgridNode();
 describe('sendgrid node', function () {
     beforeEach(() => reset());
 
-    it('uses config.subject then topic then msg.subject', function (done) {
+    it('uses topic then msg.subject', function (done) {
         const flow = [{
             id: 'n1',
             type: NODE_TYPE,
             from: 'from@example.com',
-            to: 'to@example.com',
-            subject: 'Config Subject'
+            to: 'to@example.com'
         }];
 
         const credentials = { n1: { key: 'SG.fakekey' } };
@@ -32,7 +31,7 @@ describe('sendgrid node', function () {
                     state.sendCalls.should.have.length(1);
 
                     const data = state.sendCalls[0].data;
-                    data.subject.should.equal('Config Subject');
+                    data.subject.should.equal('Topic Subject'); // Now expects topic, not config.subject
                     data.text.should.equal('Hello world!');
 
                     done();

@@ -13,11 +13,6 @@ Send e-mails using the SendGrid service from Node-RED.
 - **msg.templateId** (`string`, optional): SendGrid dynamic template ID
 - **msg.templateData** (`object | string`, optional): Data for dynamic template
 
-
-### Skip Bad Attachments
-
-If enabled, attachments that cannot be normalized (invalid or unsupported) will be skipped and a warning will be logged instead of failing the node. If disabled, the node will error on the first bad attachment.
-
 ### Details
 
 To use this node:
@@ -29,24 +24,28 @@ To use this node:
 
 #### Attachments
 
-To add attachments, set `msg.attachments`:
+To add attachments, set `msg.attachments` to an array:
 
-- For a single attachment, use a Buffer.
-- For multiple attachments, use an array of Buffers or objects in SendGrid's format.
-- If using Buffers, filenames will be auto-generated unless you provide `att.filename` or `msg.filenames` (array of names in the same order as the Buffers).
-- `msg.payload` is always used as the e-mail body (string or HTML), never as an attachment.
+- Each item in the array must be either a Buffer (for file content) or an object in SendGrid's attachment format (see below).
+- For Buffers, filenames are auto-generated (e.g., attachment-1.pdf). To specify a filename, use a SendGrid object and set its `filename` property.
+- You may mix Buffers and SendGrid objects in the same array.
+- `msg.payload` is always used as the e-mail body (plain text or HTML, depending on node config) and is never treated as an attachment.
 
 **SendGrid attachment object example:**
 
 ```js
 {
-  content: "<base64-encoded string>",
+  content: "<base64-encoded string or raw buffer>",
   filename: "document.pdf",
   type: "application/pdf", // optional
-  disposition: "attachment", // optional
+  disposition: "attachment", // optional, use "inline" for inline attachments embedded in the email body
   content_id: "unique-id" // optional
 }
 ```
+
+### Skip Bad Attachments
+
+If enabled, attachments that cannot be normalized (invalid or unsupported) will be skipped and a warning will be logged instead of failing the node. If disabled, the node will error on the first bad attachment.
 
 **Note:** Legacy usage of `msg.payload` as a Buffer for attachments is no longer supported. Always use `msg.attachments` for attachments.
 

@@ -14,13 +14,13 @@
             "template": "テンプレート",
             "templateId": "テンプレID",
             "templateData": "テンプレートデータ",
-            "subject": "件名",
             "attachments": "添付ファイル",
             "body": "本文",
             "skipBadAtts": "不正な添付ファイルをスキップ (エラーの代わりに警告)"
         },
         "status": {
             "sending": "送信中...",
+            "sent": "送信完了",
             "sendfail": "送信失敗"
         }
     }

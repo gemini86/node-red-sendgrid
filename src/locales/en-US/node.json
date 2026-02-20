@@ -14,7 +14,6 @@
             "template": "Template",
             "templateId": "Template ID",
             "templateData": "Template Data",
-            "subject": "Subject",
             "attachments": "Attachments",
             "body": "Body",
             "skipBadAtts": "Skip bad attachments (warn instead of error)"
