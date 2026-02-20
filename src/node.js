@@ -16,14 +16,15 @@ module.exports = function (RED) {
             var body;
             
             // Parse template data with error handling
+            // Treat empty strings as unset (to match editor default behavior)
             var templateData;
             var templateDataSource;
             var templateDataSourceName;
             
-            if (config.templateData !== undefined) {
+            if (config.templateData !== undefined && config.templateData !== '') {
                 templateDataSource = config.templateData;
                 templateDataSourceName = 'config';
-            } else if (msg.templateData !== undefined) {
+            } else if (msg.templateData !== undefined && msg.templateData !== '') {
                 templateDataSource = msg.templateData;
                 templateDataSourceName = 'message';
             } else {
