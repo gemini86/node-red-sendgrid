@@ -12,15 +12,26 @@ module.exports = function (RED) {
             };
             node.status({fill: "blue", shape: "dot", text: "gemini86-sendgrid.status.sending"});
             var body;
-            var data = {
-                from: config.from || msg.from,
-                to: (to => Array.isArray(to) ? to : to.split(/[,; ]+/g))(msg.to || config.to || ''),
-                cc: (msg.cc || '').split(/[,; ]+/g),
-                bcc: (msg.bcc || '').split(/[,; ]+/g),
-                subject: msg.topic || msg.subject || 'Message from Node-RED',
-                templateId: config.templateId || msg.templateId,
-                dynamic_template_data: (data => typeof data === 'object' ? data : JSON.parse(data))(config.templateData || msg.templateData || '{}'),
-            };
+            var data;
+            try {
+                data = {
+                    from: config.from || msg.from,
+                    to: (to => Array.isArray(to) ? to : to.split(/[,; ]+/g))(msg.to || config.to || ''),
+                    cc: (msg.cc || '').split(/[,; ]+/g),
+                    bcc: (msg.bcc || '').split(/[,; ]+/g),
+                    subject: msg.topic || msg.subject || 'Message from Node-RED',
+                    templateId: config.templateId || msg.templateId,
+                    dynamic_template_data: (data => typeof data === 'object' ? data : JSON.parse(data))(config.templateData || msg.templateData || '{}'),
+                };
+            } catch (err) {
+                node.status({fill: "red", shape: "ring", text: "gemini86-sendgrid.status.sendfail"});
+                const errorMsg = `Invalid template data JSON: ${err.message}`;
+                if (done) {
+                    return done(errorMsg);
+                } else {
+                    return node.error(errorMsg, msg);
+                }
+            }
             if(!data.templateId) {
                 // Always use msg.attachments for attachments
                 if (msg.attachments) {

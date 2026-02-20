@@ -2,7 +2,7 @@
   "name": "@gemini86/node-red-sendgrid",
   "version": "1.1.3",
   "description": "Sending e-mail node using SendGrid service",
-  "main": "node.js",
+  "main": "src/node.js",
   "scripts": {
     "test": "mocha test/*.test.js"
   },
