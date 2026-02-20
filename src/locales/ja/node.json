@@ -20,6 +20,7 @@
         },
         "status": {
             "sending": "送信中...",
+            "sent": "送信完了",
             "sendfail": "送信失敗"
         }
     }

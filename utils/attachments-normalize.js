@@ -28,28 +28,8 @@ function mimeFromFilename(filename) {
         wav: 'audio/wav',
         mp4: 'video/mp4',
     };
-    return map[ext];
+    return Object.prototype.hasOwnProperty.call(map, ext) ? map[ext] : null; // fallback to null if not found
 }
-
-/**
- * Automatically convert buffers to base64
- */
-function contentToBase64(content) {
-    // Raw Buffer
-    if (Buffer.isBuffer(content)) return content.toString("base64");
-
-    // Node-RED sometimes serializes buffers like this
-    if (content && content.type === "Buffer" && Array.isArray(content.data)) {
-        return Buffer.from(content.data).toString("base64");
-    }
-
-    // Already base64 string
-    if (typeof content === "string") return content;
-
-    // Unknown type
-    return null;
-}
-
 
 /**
  * Basic, dependency-free extension + mime sniff from buffer magic bytes.
@@ -72,8 +52,10 @@ function sniffFromBuffer(buf) {
     if (buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF) return { ext: 'jpg', mime: 'image/jpeg' };
 
     // GIF
-    const gif = buf.slice(0, 6).toString('ascii');
-    if (gif === 'GIF87a' || gif === 'GIF89a') return { ext: 'gif', mime: 'image/gif' };
+    if (buf.length >= 6) {
+        const gif = buf.slice(0, 6).toString('ascii');
+        if (gif === 'GIF87a' || gif === 'GIF89a') return { ext: 'gif', mime: 'image/gif' };
+    }
 
     // WebP: RIFF....WEBP
     if (buf.length >= 12 &&
@@ -154,7 +136,7 @@ function normalizeAttachments(input, opts = {}) {
                 a.setDisposition('attachment'); // ensures Buffer -> base64 when setContent(Buffer)
                 a.setFilename(`${baseName}-${idx}.${ext}`);
                 a.setType(mimeType);
-                a.setContent(item);
+                a.setFileContent(item);
 
                 attachments.push(a.toJSON());
                 continue;
@@ -172,7 +154,7 @@ function normalizeAttachments(input, opts = {}) {
                 a.setDisposition(item.disposition || 'attachment');
                 a.setFilename(item.filename);
                 if (type) a.setType(type);
-                a.setContent(contentToBase64(item.content)); // Auto base64 or Buffer
+                a.setFileContent(item.content); // Auto base64 or Buffer
                 if (item.content_id) a.setContentId(item.content_id);
 
                 attachments.push(a.toJSON());

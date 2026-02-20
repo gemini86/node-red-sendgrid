@@ -1,5 +1,4 @@
-
-# node-red-contrib-sendgrid
+# @gemini86/node-red-sendgrid
 
 Send e-mails using the SendGrid service from Node-RED. This node provides a reliable alternative to the default e-mail node, especially when using cloud or remote deployments.
 

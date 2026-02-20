@@ -27,7 +27,7 @@ module.exports = function (RED) {
                     try {
                         const { attachments, errors } = normalizeAttachments(msg.attachments, {
                             onError: config.skipBadAtts ? 'skip' : 'fail',
-                            baseName: node.baseName || 'attachment',
+                            baseName: 'attachment',
                             sniffBuffers: true,
                             inferTypeFromFilename: true,
                         });
