@@ -154,7 +154,7 @@ function normalizeAttachments(input, opts = {}) {
                 a.setDisposition(item.disposition || 'attachment');
                 a.setFilename(item.filename);
                 if (type) a.setType(type);
-                a.setFileContent(item.content); // Auto base64 or Buffer
+                Buffer.isBuffer(item.content) ? a.setFileContent(item.content) : a.setContent(item.content); // Auto base64 or Buffer
                 if (item.content_id) a.setContentId(item.content_id);
 
                 attachments.push(a.toJSON());
