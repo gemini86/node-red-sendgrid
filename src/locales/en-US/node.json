@@ -1,0 +1,27 @@
+{
+    "gemini86-sendgrid": {
+        "label": {
+            "apiKey": "API key",
+            "apiKeyPlaceholder": "Paste API Key created in SendGrid settings",
+            "from": "From address",
+            "multiple": "Send individually",
+            "to": "To address",
+            "cc": "CC",
+            "bcc": "BCC",
+            "format": "Format",
+            "text": "Text",
+            "html": "HTML",
+            "template": "Template",
+            "templateId": "Template ID",
+            "templateData": "Template Data",
+            "attachments": "Attachments",
+            "body": "Body",
+            "skipBadAtts": "Skip bad attachments (warn instead of error)"
+        },
+        "status": {
+            "sending": "Sending...",
+            "sent": "Sent",
+            "sendfail": "Send failed"
+        }
+    }
+}

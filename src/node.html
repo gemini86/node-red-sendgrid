@@ -1,7 +1,7 @@
 <script type="text/javascript">
-  RED.nodes.registerType('sendgrid', {
+  RED.nodes.registerType('gemini86-sendgrid', {
     category: 'social',
-    color: '#489be8',
+    color: '#4176a6', 
     defaults: {
       from: {value: ""},
       multiple: {value: false},
@@ -9,7 +9,8 @@
       name: {value: ""},
       content: {value: "text"},
       templateId: {value: ""},
-      templateData: {value: ""}
+      templateData: {value: ""},
+      skipBadAttachments: {value: false}
     },
     credentials: {
       key: {type: "password"},
@@ -96,40 +97,40 @@
   }
 </style>
 
-<script type="text/html" data-template-name="sendgrid">
+<script type="text/html" data-template-name="gemini86-sendgrid">
   <div class="form-row">
-    <label for="node-input-key"><i class="fa fa-lock"></i> <span data-i18n="sendgrid.label.apiKey"></label>
-    <input type="password" id="node-input-key" data-i18n="[placeholder]sendgrid.label.apiKeyPlaceholder">
+    <label for="node-input-key"><i class="fa fa-lock"></i> <span data-i18n="gemini86-sendgrid.label.apiKey"></label>
+    <input type="password" id="node-input-key" data-i18n="[placeholder]gemini86-sendgrid.label.apiKeyPlaceholder">
   </div>
   <div class="form-row">
-    <label for="node-input-from"><i class="fa fa-user"></i> <span data-i18n="sendgrid.label.from"></label>
+    <label for="node-input-from"><i class="fa fa-user"></i> <span data-i18n="gemini86-sendgrid.label.from"></label>
     <input type="text" id="node-input-from" placeholder="example@example.com">
   </div>
   <div class="form-row">
-    <label for="node-input-to"><i class="fa fa-envelope"></i> <span data-i18n="sendgrid.label.to"></label>
+    <label for="node-input-to"><i class="fa fa-envelope"></i> <span data-i18n="gemini86-sendgrid.label.to"></label>
     <input type="text" id="node-input-to" placeholder="youremail@ddress.com" style="width:50%;">
     <input type="checkbox" id="node-input-multiple" style="width:20px;">
     <label for="node-input-multiple" style="width:60px;">
-      <span data-i18n="sendgrid.label.multiple">
+      <span data-i18n="gemini86-sendgrid.label.multiple">
     </label>
   </div>
   <div class="form-row">
-    <label for="node-input-content"><i class="fa fa-code"></i> <span data-i18n="sendgrid.label.format"></label>
+    <label for="node-input-content"><i class="fa fa-code"></i> <span data-i18n="gemini86-sendgrid.label.format"></label>
     <select id="node-input-content">
-      <option selected value="text" data-i18n="sendgrid.label.text"></option>
-      <option value="html" data-i18n="sendgrid.label.html"></option>
+      <option selected value="text" data-i18n="gemini86-sendgrid.label.text"></option>
+      <option value="html" data-i18n="gemini86-sendgrid.label.html"></option>
     </select>
     <input type="checkbox" id="node-input-template" style="width:20px;">
     <label for="node-input-template" style="width:85px;">
-      <span data-i18n="sendgrid.label.template">
+      <span data-i18n="gemini86-sendgrid.label.template">
     </label>
   </div>
   <div class="form-row">
-    <label for="node-input-templateId" id="node-input-templateId-label"><i class="fa fa-tag"></i><span data-i18n="sendgrid.label.templateId"></span></label>
+    <label for="node-input-templateId" id="node-input-templateId-label"><i class="fa fa-tag"></i><span data-i18n="gemini86-sendgrid.label.templateId"></span></label>
     <input type="text" id="node-input-templateId">
   </div>
   <div class="form-row" style="position: relative;margin-bottom:0;">
-    <label for="node-input-templateData" id="node-input-templateData-label"><i class="fa fa-file-code-o"></i><span data-i18n="sendgrid.label.templateData"></span></label>
+    <label for="node-input-templateData" id="node-input-templateData-label"><i class="fa fa-file-code-o"></i><span data-i18n="gemini86-sendgrid.label.templateData"></span></label>
     <input type="hidden" id="node-input-templateData">
     <div style="position: absolute; right:0;display:inline-block; text-align: right; font-size: 0.8em;">
         <button id="node-templateData-expand-editor" class="red-ui-button red-ui-button-small"><i class="fa fa-expand"></i></button>
@@ -137,6 +138,12 @@
   </div>
   <div class="form-row node-text-editor-row">
     <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-templateData-editor"></div>
+  </div>
+  <div class="form-row">
+    <label for="node-input-skipBadAtts" style="width:auto;">
+      <input type="checkbox" id="node-input-skipBadAtts" style="width:20px; vertical-align:middle;">
+      <span data-i18n="gemini86-sendgrid.label.skipBadAtts">Skip bad attachments (warn instead of error)</span>
+    </label>
   </div>
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
