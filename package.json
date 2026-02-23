@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/gemini86/node-red-sendgrid.git"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6"
   },
@@ -20,6 +23,7 @@
     "proxyquire": "^2.1.3"
   },
   "node-red": {
+    "version": ">=4.0.0",
     "nodes": {
       "gemini86-sendgrid": "src/node.js"
     }
