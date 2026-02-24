@@ -124,7 +124,8 @@ module.exports = function (RED) {
             key: {type: "password"}
         },
         defaults: {
-            skipBadAtts: { value: false }
+            skipBadAtts: { value: false },
+            template: { value: false }
         }
     });
 };
