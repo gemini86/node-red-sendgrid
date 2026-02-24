@@ -45,4 +45,11 @@
     "url": "https://github.com/gemini86/node-red-sendgrid/issues"
   },
   "homepage": "https://github.com/gemini86/node-red-sendgrid#readme"
+  ,
+  "examples": [
+    "examples/basic-text-flow.json",
+    "examples/html-flow.json",
+    "examples/template-config-flow.json",
+    "examples/template-message-flow.json"
+  ]
 }
