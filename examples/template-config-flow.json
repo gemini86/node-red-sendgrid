@@ -39,6 +39,7 @@
     "multiple": false,
     "to": "recipient@example.invalid",
     "content": "text",
+    "template": true,
     "templateId": "d-YOUR_DYNAMIC_TEMPLATE_ID",
     "templateData": "{\"exampleValue\":\"config-template-mode\",\"reference\":\"EXAMPLE-001\"}",
     "skipBadAtts": false,
