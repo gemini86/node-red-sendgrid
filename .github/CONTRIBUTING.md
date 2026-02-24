@@ -11,18 +11,19 @@ Thank you for your interest in contributing!
 
 ## Issues
 
-- Please use the [issue template](ISSUE_TEMPLATE.md) when reporting bugs or requesting features.
-- Provide as much detail as possible.
+Please use the appropriate issue template when reporting bugs or requesting features:
+- [Bug Report](ISSUE_TEMPLATE/bug_report.md)
+- [Feature Request](ISSUE_TEMPLATE/feature_request.md)
+
+When creating a new issue, GitHub will prompt you to select a template. Provide as much detail as possible to help us address your issue efficiently.
 
 ## Pull Requests
 
-- Follow the [pull request template](PULL_REQUEST_TEMPLATE.md).
-- Ensure your branch is up to date with `main` before submitting.
-- Reference related issues in your PR description.
+Pull request template is located at `.github/PULL_REQUEST_TEMPLATE.md` and will be shown automatically when you open a pull request.
+Reference related issues in your PR description for clarity.
 
-## Code Style
 
-- Keep code readable and well-documented.
+For more details, see the templates in the `.github/ISSUE_TEMPLATE` folder and `.github/PULL_REQUEST_TEMPLATE.md`.
 - Use existing formatting and conventions.
 
 ## Community
