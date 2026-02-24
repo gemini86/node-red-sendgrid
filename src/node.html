@@ -8,6 +8,7 @@
       to: {value: ""},
       name: {value: ""},
       content: {value: "text"},
+      template: {value: false},
       templateId: {value: ""},
       templateData: {value: ""},
       skipBadAttachments: {value: false}
@@ -24,6 +25,12 @@
     },
     oneditprepare: function() {
       var that = this;
+      // Restore template checkbox state from property
+      if (that.template === true || that.template === 'true') {
+        $("#node-input-template").prop('checked', true);
+      } else {
+        $("#node-input-template").prop('checked', false);
+      }
       this.editor = RED.editor.createEditor({
         id: 'node-input-templateData-editor',
         mode: 'ace/mode/json',
@@ -66,10 +73,12 @@
             },300);
           }
         });
-      })
+      });
     },
     oneditsave: function() {
       $("#node-input-templateData").val(this.editor.getValue());
+      // Save template checkbox state
+      this.template = $("#node-input-template").prop('checked');
       this.editor.destroy();
       delete this.editor;
     },

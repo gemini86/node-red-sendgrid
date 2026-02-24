@@ -1,0 +1,60 @@
+[
+  {
+    "id": "f3a1c2b3d4e5f801",
+    "type": "tab",
+    "label": "SendGrid Template Config",
+    "disabled": false,
+    "info": "Template mode driven by config.templateId and config.templateData."
+  },
+  {
+    "id": "a3a1c2b3d4e5f802",
+    "type": "inject",
+    "z": "f3a1c2b3d4e5f801",
+    "name": "Send template (config)",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "payload": "Body is ignored when template mode is active.",
+    "payloadType": "str",
+    "x": 190,
+    "y": 130,
+    "wires": [
+      [
+        "b3a1c2b3d4e5f803"
+      ]
+    ]
+  },
+  {
+    "id": "b3a1c2b3d4e5f803",
+    "type": "gemini86-sendgrid",
+    "z": "f3a1c2b3d4e5f801",
+    "name": "Template from config",
+    "from": "no-reply@example.invalid",
+    "multiple": false,
+    "to": "recipient@example.invalid",
+    "content": "text",
+    "template": true,
+    "templateId": "d-YOUR_DYNAMIC_TEMPLATE_ID",
+    "templateData": "{\"exampleValue\":\"config-template-mode\",\"reference\":\"EXAMPLE-001\"}",
+    "skipBadAtts": false,
+    "x": 430,
+    "y": 130,
+    "wires": []
+  },
+  {
+    "id": "c3a1c2b3d4e5f804",
+    "type": "comment",
+    "z": "f3a1c2b3d4e5f801",
+    "name": "Setup",
+    "info": "Set API key credential to SG.YOUR_SENDGRID_API_KEY. Replace d-YOUR_DYNAMIC_TEMPLATE_ID with your template id.",
+    "x": 360,
+    "y": 60,
+    "wires": []
+  }
+]

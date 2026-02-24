@@ -1,0 +1,98 @@
+[
+  {
+    "id": "f1a1c2b3d4e5f601",
+    "type": "tab",
+    "label": "SendGrid Basic Text",
+    "disabled": false,
+    "info": "Basic text e-mail example for gemini86-sendgrid."
+  },
+  {
+    "id": "e1a1c2b3d4e5f602",
+    "type": "comment",
+    "z": "f1a1c2b3d4e5f601",
+    "name": "Setup",
+    "info": "Set API key credential to SG.YOUR_SENDGRID_API_KEY before deploying.",
+    "x": 280,
+    "y": 60,
+    "wires": []
+  },
+  {
+    "id": "a1a1c2b3d4e5f603",
+    "type": "inject",
+    "z": "f1a1c2b3d4e5f601",
+    "name": "Send basic text",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "Example subject",
+    "payload": "Hello from the basic SendGrid example flow.",
+    "payloadType": "str",
+    "x": 170,
+    "y": 140,
+    "wires": [
+      [
+        "b1a1c2b3d4e5f604"
+      ]
+    ]
+  },
+  {
+    "id": "b1a1c2b3d4e5f604",
+    "type": "gemini86-sendgrid",
+    "z": "f1a1c2b3d4e5f601",
+    "name": "Send text email",
+    "from": "no-reply@example.invalid",
+    "multiple": false,
+    "to": "recipient@example.invalid",
+    "content": "text",
+    "templateId": "",
+    "templateData": "",
+    "skipBadAtts": false,
+    "x": 420,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "c1a1c2b3d4e5f605",
+    "type": "catch",
+    "z": "f1a1c2b3d4e5f601",
+    "name": "Send errors",
+    "scope": [
+      "b1a1c2b3d4e5f604"
+    ],
+    "uncaught": false,
+    "x": 180,
+    "y": 220,
+    "wires": [
+      [
+        "d1a1c2b3d4e5f606"
+      ]
+    ]
+  },
+  {
+    "id": "d1a1c2b3d4e5f606",
+    "type": "debug",
+    "z": "f1a1c2b3d4e5f601",
+    "name": "Error output",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 410,
+    "y": 220,
+    "wires": []
+  }
+]

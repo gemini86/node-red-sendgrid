@@ -1,0 +1,64 @@
+[
+  {
+    "id": "f2a1c2b3d4e5f701",
+    "type": "tab",
+    "label": "SendGrid HTML",
+    "disabled": false,
+    "info": "HTML body example for gemini86-sendgrid."
+  },
+  {
+    "id": "a2a1c2b3d4e5f702",
+    "type": "inject",
+    "z": "f2a1c2b3d4e5f701",
+    "name": "Send HTML",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "Example HTML subject",
+    "payload": "<h2>Example HTML message</h2><p>This is a placeholder HTML body.</p>",
+    "payloadType": "str",
+    "x": 150,
+    "y": 120,
+    "wires": [
+      [
+        "b2a1c2b3d4e5f703"
+      ]
+    ]
+  },
+  {
+    "id": "b2a1c2b3d4e5f703",
+    "type": "gemini86-sendgrid",
+    "z": "f2a1c2b3d4e5f701",
+    "name": "Send HTML email",
+    "from": "no-reply@example.invalid",
+    "multiple": false,
+    "to": "recipient@example.invalid",
+    "content": "html",
+    "templateId": "",
+    "templateData": "",
+    "skipBadAtts": false,
+    "x": 380,
+    "y": 120,
+    "wires": []
+  },
+  {
+    "id": "c2a1c2b3d4e5f704",
+    "type": "comment",
+    "z": "f2a1c2b3d4e5f701",
+    "name": "Setup",
+    "info": "Set API key credential to SG.YOUR_SENDGRID_API_KEY before deploying.",
+    "x": 270,
+    "y": 50,
+    "wires": []
+  }
+]
