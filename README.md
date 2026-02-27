@@ -10,7 +10,7 @@ Send e-mails using the SendGrid service from Node-RED. This node provides a reli
 - **msg.bcc** (`string`, optional): Blind carbon copy recipient(s)
 - **msg.topic** or **msg.subject** (`string`): E-mail subject
 - **msg.payload** (`string`): E-mail body (plain text or HTML)
-- **msg.attachments** (`Buffer | Array | Object`): One or more attachments. Use a Buffer for a single attachment, or an array of Buffers/objects for multiple. Objects must match SendGrid's attachment format. Filenames are auto-generated unless provided.
+- **msg.attachments** (`Array`): One or more attachments. Provide an array of Buffers or objects in SendGrid's attachment format. Filenames are auto-generated unless provided.
 - **msg.templateId** (`string`, optional): SendGrid dynamic template ID
 - **msg.templateData** (`object` or `string`, optional): Data for dynamic template
 
@@ -25,11 +25,10 @@ To use this node:
 
 ### Attachments
 
-To add attachments, set `msg.attachments`:
+To add attachments, set `msg.attachments` to an **array**:
 
-- For a single attachment, use a Buffer.
-- For multiple attachments, use an array of Buffers or objects in SendGrid's format.
-- If using Buffers, filenames will be auto-generated unless you provide `att.filename` or `msg.filenames` (array of names in the same order as the Buffers).
+- Each item can be a Buffer or an object in SendGrid's format.
+- Filenames are auto-generated unless you provide `att.filename` or `msg.filenames` (array of names in the same order as the Buffers).
 - `msg.payload` is always used as the e-mail body (string or HTML), never as an attachment.
 
 **SendGrid attachment object example:**
