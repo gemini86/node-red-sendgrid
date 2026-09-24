@@ -1,5 +1,5 @@
 var sgMail = require('@sendgrid/mail');
-const { normalizeAttachments } = require('../utils/attachments-normalize');
+const { normalizeAttachments } = require('./utils/attachments-normalize');
 
 module.exports = function (RED) {
     'use strict';
